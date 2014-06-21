@@ -42,6 +42,7 @@ around _assign_new => sub {
     my \%_handles_via_accessors = ( @_handles_via_accessors );
     while( my (\$attr, \$attr_value) = each \%\$args ) {
        if( exists \$_handles_via_accessors{\$attr} ) {
+          # TODO this would be better handled as a set intersection
           \$new->\$attr( \$attr_value );
        }
     }
