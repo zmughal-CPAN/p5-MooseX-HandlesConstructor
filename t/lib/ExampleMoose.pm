@@ -1,18 +1,22 @@
 package #
-	Example;
+	ExampleMoose;
 
-use Moo;
-use MooX::HandlesVia;
-use MooX::HandlesViaConstructor;
+use strict;
+use warnings;
+
+use Moose;
+use MooseX::HandlesConstructor;
 
 # HashRef
 has header => ( is => 'rw',
 	default => sub { {} },
-	handles_via => 'Hash',
+	traits => ['Hash'],
 	handles => {
 		session =>  [ accessor => 'session'  ],
 		msg_type => [ accessor => 'msg_type' ]
 	}
 );
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
 1;
