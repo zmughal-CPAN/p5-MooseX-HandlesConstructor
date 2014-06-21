@@ -1,4 +1,5 @@
 package MooseX::HandlesConstructor;
+# ABSTRACT: Moo[se] extension that allows for setting handle accessors with the constructor
 
 use strict;
 use warnings;
@@ -45,3 +46,41 @@ sub import {
 }
 
 1;
+
+=head1 SYNOPSIS
+
+    package Message;
+
+    use Moo; # or Moose traits
+    use MooX::HandlesVia;
+    #use MooseX::HandlesConstructor;
+
+    has header => ( is => 'rw',
+        default => sub { {} },
+        handles_via => 'Hash',
+        handles => {
+            session =>  [ accessor => 'session'  ],
+            msg_type => [ accessor => 'msg_type' ]
+        }
+    );
+
+    # elsewhere...
+    my $msg = Message->new( msg_type => 'reply', header => { answer => 42 }  );
+    use Data::Dumper; print Dumper $msg->header;
+    # $VAR1 = {
+    #           'answer' => 42,
+    #           'msg_type' => 'reply'
+    #         };
+
+=head1 DESCRIPTION
+
+When using Moo or Moose handles that provide an accessor handle on an
+attribute, it may make sense to pass the name of handles to the constructor to
+simplify the API. Using this module will get all curried accessor handles
+defined in a class and allow setting them when calling C<->new()>
+
+=head1 SEE ALSO
+
+L<MooX::HandlesVia>, L<Moose native delegation|Moose::Manual::Delegation/"NATIVE DELEGATION">.
+
+=cut
