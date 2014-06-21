@@ -53,7 +53,7 @@ sub import {
 
     use Moo; # or Moose traits
     use MooX::HandlesVia;
-    #use MooseX::HandlesConstructor;
+    use MooseX::HandlesConstructor;
 
     has header => ( is => 'rw',
         default => sub { {} },
