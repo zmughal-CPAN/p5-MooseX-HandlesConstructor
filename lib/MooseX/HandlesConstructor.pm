@@ -33,6 +33,10 @@ sub import {
 	install_modifier($target, 'after', BUILD => sub {
 		my ($self, $args) = @_;
 		while( my ($attr, $attr_value) = each %$args ) {
+			# NOTE This may be better handled as a set intersection
+			# between (keys %_handles_via_accessors) and
+			# (keys %$args) but for small hashes, it's probably not
+			# efficient.
 			if( exists $_handles_via_accessors{$attr} ) {
 				$self->$attr( $attr_value );
 			}
